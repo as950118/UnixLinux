@@ -1,12 +1,15 @@
+#-*- encoding: utf8 -*-
 import urllib.request
 import urllib.parse
 from bs4 import BeautifulSoup
-from konlpy.tag import Kkma, Twitter
+from konlpy.tag import Kkma, Okt
 from collections import Counter
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
+
+debug = 0
 
 class wcClass:
     def __init__(self, query):
@@ -21,7 +24,8 @@ class wcClass:
         display = "&display=" + str(display)
         start = "&start=" + str(start)
         ret_url = default_url + query + display + start
-        print(ret_url)
+        if debug:
+            print(ret_url)
 
         headers = {
             "Host" : "openapi.naver.com",
@@ -42,30 +46,37 @@ class wcClass:
             for elem in item:
               if type(elem) == Type:
                 sentences += elem.get_text(strip = 1)
-        print(sentences)
+        if debug:
+            print(sentences)
         return sentences
 
     def nouns(self, sentences):
-        twitter = Twitter()
-        count = Counter(twitter.nouns(sentences))
-        print(count)
+        okt = Okt()
+        count = Counter(okt.nouns(sentences))
+        if debug:
+            print(count)
         return count
 
-    def wcImg(self, count, mask="./kko.png", font_path="./BMHANNAAir_ttf.ttf"):
+    def makewc(self, count, mask="./mask/mask_default.png", font_path="./font/font_default.ttf"):
         mask = np.array(Image.open(mask))
-        wc = WordCloud(font_path=font_path, background_color='white', width = 800, height = 800, mask=mask)
+        wc = WordCloud(font_path=font_path, background_color='white', width=1000, height=1000, mask=mask)
         cloud = wc.generate_from_frequencies(count)
         plt.imshow(cloud)
         plt.axis("off")
         fig = plt.gcf()
         fig.savefig("./wcimg/"+self.query+".png")
+        if debug:
+            "./wcimg/"+self.query+".png"
         return "./wcimg/"+self.query+".png"
 
     def main(self):
         obj = wcClass(self.query)
         sentences = obj.crawl()
         nouns = obj.nouns(sentences)
-        print(obj.wcImg(nouns))
+        obj.makewc(nouns)
+        if debug:
+            print("Completed WordCloud")
+        return 1
 
 if __name__=="__main__":
     wcClass(str(input())).main()

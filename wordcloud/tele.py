@@ -1,3 +1,4 @@
+#-*- encoding: utf8 -*-
 import telegram
 from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 import WC
@@ -8,8 +9,8 @@ bot = telegram.Bot(token = token)
 #    update.message.reply_text(update.message.text)
 def get_wordcloud(bot, update):
     WC.wcClass(update.message.text).main()
-    print(update.message.chat_id, update.message, "./wcimg/"+update.message.text+".png")
-    bot.sendPhoto(chat_id=update.message.chat_id, photo=open("./wcimg/"+update.message.text+".png",'rb'))
+    bot.send_photo(chat_id=update.message.chat_id, photo=open("./wcimg/"+update.message.text+".png"))
+    #update.message.reply_photo(photo=open("./wcimg/"+update.message.text+".png"))
 def get_whatyourname(bot, update):
     update.message.reply_text("HeonJin Jeong")
 updater = Updater(token)
