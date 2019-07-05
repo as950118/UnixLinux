@@ -66,7 +66,7 @@ class wcClass:
         fig = plt.gcf()
         fig.savefig("./wcimg/"+self.query+".png")
         if debug:
-            "./wcimg/"+self.query+".png"
+            print("./wcimg/"+self.query+".png")
         return "./wcimg/"+self.query+".png"
 
     def main(self):

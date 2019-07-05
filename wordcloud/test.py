@@ -1,3 +1,4 @@
+'''
 import os
 from selenium import webdriver
 
@@ -10,3 +11,4 @@ elems = wd.find_element_by_xpath("//img[@src]")
 print(elems.text)
 for elem in elems:
     print(elem.text)
+'''
