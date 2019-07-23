@@ -36,5 +36,6 @@ def permAll_FromArrs(arr): #arr는 찾을 배열, end는 몇개를 찾을지
                 ret += func(cur + next_val, next_remainder)
         return ret
     return func("", trans_arr)
+
 temp = permAll_FromArrs(arr)
 print(temp, len(temp))

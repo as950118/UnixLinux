@@ -28,11 +28,12 @@ arr['g'] = ['v','w','x','y','z']
 '''
 '''
 순열을 구하는 이유는 다음과 같다.
-각각의 arr에서 2개 이상의 value를 꺼낼때 순서를 고려하기 위해서이다.
+각각의 arr에서 2개 이상의 value를 꺼낼때 모든 순서를 고려하기 위해서이다.
 예를들어, abc와 acb는 다르기 때문이다.
 '''
 '''
 순열을 구하는 방법은 몇가지가 있는데, 재귀(recursion)를 이용하였다.
+재귀란, 함수에서 자기자신 함수를 반복적으로 불러오는 형태를 의미한다.
 먼저 배열(arr), 순열의 크기(end), 현재 요소(cur), 남은 요소(remainder) 를 입력받는다.
 '''
 import sys
@@ -63,6 +64,16 @@ def perm(arr, end): #arr는 찾을 배열, end는 몇개를 찾을지
         return ret
     return func("", arr)
 '''
+사실 더 간단한 방법이있다.
+구현해놓은 라이브러리를 사용하면 된다.
+itetools에는 permutations라는 라이브러리가 있다.
+참고로 조합도 combinations로 구현되어있다.
+'''
+from itertools import permutations, combinations
+#print(list(map(''.join, permutations(arr['h']))))
+#print(list(map(''.join, combinations(arr['h'],5))))
+
+'''
 모든 개수에 대해 순열을 구하려면 end에 1,2,3..을 대입하여 모두 구해도되지만
 실행 시간을 아끼기 위해서는 다음의 함수를 사용해도된다.
 기본적인 알고리즘은 비슷하다.
@@ -83,20 +94,11 @@ def permAll(arr): #arr는 찾을 배열, end는 몇개를 찾을지
         return ret
     return func("", arr)
 '''
-사실 더 간단한 방법이있다.
-구현해놓은 라이브러리를 사용하면 된다.
-itetools에는 permutations라는 라이브러리가 있다.
-참고로 조합도 combinations로 구현되어있다.
-'''
-from itertools import permutations, combinations
-#print(list(map(''.join, permutations(arr['h']))))
-#print(list(map(''.join, combinations(arr['h'],5))))
-'''
 그러면 이렇게 모든 arr에 대해 순열을 구하고
 각각의 순열에서 하나씩을 꺼내어 합치기, 즉 조합을 구한다.
 이미 순열로 모든 경우를 구했기때문에 중복되거나 손실되는 경우는 없다.
 '''
-def combiAll(arr):
+def combiAll(arr): #순열 예시
     end = len(arr)
     def func(cur, idx):
         ret = list()
@@ -108,7 +110,8 @@ def combiAll(arr):
                 ret += func(cur + next_val, idx+next_idx+1)
         return ret
     return func("", 0)
-def combiAll_FromArrs(arrs):
+
+def combiAll_FromArrs(arrs): #2중 배열에서 순열 구하기
     end = len(arrs)
     def func(cur, idx):
         ret = list()
