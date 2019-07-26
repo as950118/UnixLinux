@@ -23,26 +23,40 @@ pip install hgtk
 '''
 import hgtk
 #글자를 조합
+print("")
+print("1. 글자조합(ㅈㅓㅇ)")
 print(hgtk.letter.compose('ㅈ','ㅓ','ㅇ'))
 #글자를 분해
+print("")
+print("2. 글자분해(정)")
 print(hgtk.letter.decompose('정'))
 #문장을 조합
+print("")
+print("3. 문장조합(ㅈㅓㅇㅎㅓㄴㅈㅣㄴㅇㅣㅂㄴㅣㄷㅏ)")
 print(hgtk.text.compose('ㅈㅓㅇㅎㅓㄴㅈㅣㄴㅇㅣㅂㄴㅣㄷㅏ'))
 print(hgtk.text.compose('ㅈㅓㅇᴥㅎㅓㄴᴥㅈㅣㄴᴥㅇㅣㅂᴥㄴㅣᴥㄷㅏᴥ'))
 #문장을 분해
+print("")
+print("3. 문장분해(정헌진입니다)")
 print(hgtk.text.decompose('정헌진입니다'))
-#한글인지 판단
+#문자 판단
+print("")
+print("4. 문자판단(한글, 라틴, 한자)")
 print('한글',hgtk.checker.is_hangul('한글'))
 print('latin',hgtk.checker.is_latin1('latin'))
 print('韓字',hgtk.checker.is_hanja('韓字'))
 #받침이 있는지 판단
-print(hgtk.checker.has_batchim('정'))
-print(hgtk.checker.has_batchim('저'))
+print("")
+print("5. 받침여부판단")
+print("정 :", hgtk.checker.has_batchim('정'))
+print("저 :", hgtk.checker.has_batchim('저'))
 #compose할때 불가능하면 (예를들어, ㅈ,ㅓ,ㅡ 같은 경우) 예외처리를해줌
+print("")
+print("6. 예외처리(ㅈㅓㅡ)")
 try:
-    print(hgtk.letter.compose('ㅈ','ㅓ','ㅇ'))
-except "NotLetterException":
-    print("글자가 성립하지 않음")
+    print(hgtk.letter.compose('ㅈ','ㅓ','ㅡ'))
+except Exception as e:
+    print("key : ㅈㅓㅡ", ", Error :", e)
 
 '''
 기본적으로 이정도만 알면 어느정도 구현 할 수 있다.
@@ -80,8 +94,10 @@ def permAll_FromArrs_Hangul(arr): #arr는 찾을 배열, end는 몇개를 찾을
                 ret += func(cur + next_val, next_remainder)
         return ret
     return func("", trans_arr)
-ret = permAll_FromArrs_Hangul(arr)
-print(ret, len(ret))
+temp = permAll_FromArrs_Hangul(arr)
+print("")
+print("7. 순열")
+print(temp)
 '''
 하지만 이렇게 할 경우에 문제가 나타난다.
 중성 뒤에 나오는 모든 자음은 종성으로 처리되기된다.
@@ -121,9 +137,18 @@ def permAll_FromArrs_Hangul_newline(arr): #arr는 찾을 배열, end는 몇개�
                     ret += func(cur + next_val, next_remainder)
         return ret
     return func("", trans_arr)
-ret = permAll_FromArrs_Hangul_newline(arr)
-print(ret, len(ret), ret.index('가노두'))
-
+temp = permAll_FromArrs_Hangul_newline(arr)
+print("")
+print("8. 순열(받침 고려)")
+print(temp)
+print("")
+print("9. 특정 글자 위치 찾기")
+def find(arr, string): #arr은 찾을 배열, string은 arr에서 찾을 문자
+    try:
+        return arr.index(string)
+    except Excetion as e:
+        return "key :", string, ", Error :" + e
+print("key : 가노두", ", index :", find(temp, "가노두"))
 '''
 이렇게 구한후 글자가 성립하는 것만 찾기 위해서는 결과 ret에 대해 한글자씩 decompse 가 가능한지 여부를 살펴보면 된다.
 예를들자면
